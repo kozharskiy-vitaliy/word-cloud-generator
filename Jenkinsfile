@@ -5,7 +5,7 @@ pipeline {
             
             additionalBuildArgs  '-t jenkins-kozhvit'
         
-            args '--name jenkins-slave -u 0:0 --network=net_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
+            args '--name jenkins-kozhvit -u 0:0 --network=net_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
 
         }    
     }
