@@ -2,8 +2,10 @@ pipeline {
     agent {
         
         dockerfile {
+            
             additionalBuildArgs  '-t jenkins-slave'
-            args '--name jenkins-slave -u 0:0 --network=vagrant_default'
+        
+            args '--name jenkins-slave -u 0:0 --network=vagrant_default -v /var/run/docker.sock:/var/run/docker.sock'
 
         }    
     }
