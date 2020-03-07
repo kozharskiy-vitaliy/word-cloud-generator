@@ -24,9 +24,13 @@ pipeline {
             }
         }
         stage('alpine') {
+            environment {
+                NEXUS_CREDS = credentials('nexus-creds')
+            }
+            
             steps {
                 sh """
-                    docker build --network=vagrant_default -f ./alpine/Dockerfile .
+                    docker build --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=vagrant_default -f ./alpine/Dockerfile .
                 """
             
             }
