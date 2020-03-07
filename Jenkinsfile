@@ -11,6 +11,7 @@ pipeline {
         stage('build') {
             steps {
                 sh """
+                    sleep 180
                     export PATH="\$PATH:${WORKSPACE}/bin"
                     sed -i 's/1.DEVELOPMENT/1.${BUILD_NUMBER}/g' ./rice-box.go
                     make
