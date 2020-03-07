@@ -44,7 +44,8 @@ pipeline {
                       exit 99
                     fi
                 """
-                
+                sh "docker rm -f finalalpine"
+                sh "docker rmi ouralpine"
             }
         
         }
