@@ -3,9 +3,9 @@ pipeline {
         
         dockerfile {
             
-            additionalBuildArgs  '-t jenkins-kozhvit'
+            additionalBuildArgs  '-t kozharskiy_jenkins'
         
-            args '--name jenkins-kozhvit -u 0:0 --network=kozharskiy_network_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
+            args '--name kozharskiy_jenkins -u 0:0 --network=kozharskiy_network_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
 
         }    
     }
