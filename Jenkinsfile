@@ -3,7 +3,7 @@ pipeline {
         
         dockerfile {
             additionalBuildArgs  '-t jenkins-slave'
-            args '--name jenkins-slave'
+            args '--name jenkins-slave -u 0:0'
 
         }    
     }
@@ -11,7 +11,6 @@ pipeline {
         stage('build') {
             steps {
                 sh """
-                    sleep 180
                     export PATH="\$PATH:${WORKSPACE}/bin"
                     sed -i 's/1.DEVELOPMENT/1.${BUILD_NUMBER}/g' ./rice-box.go
                     make
