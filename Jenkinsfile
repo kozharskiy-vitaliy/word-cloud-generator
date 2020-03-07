@@ -30,7 +30,7 @@ pipeline {
             
             steps {
                 sh """
-                    docker build -t our_alpine --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=network_kozhvit -f ./alpine/Dockerfile .
+                    docker build -t my_alpine --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=network_kozhvit -f ./alpine/Dockerfile .
                 """
                 sh "docker run -d --name final_alpine --network=network_kozhvit my_alpine"
                 sh """
