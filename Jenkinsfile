@@ -22,8 +22,17 @@ pipeline {
                 nexusArtifactUploader artifacts: [[artifactId: 'word-cloud-generator', classifier: '', file: 'artifacts/linux/word-cloud-generator.gz', type: 'gz']], credentialsId: 'nexus-creds', groupId: '1', nexusUrl: 'nexus:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'word-cloud-generator', version: '1.$BUILD_NUMBER'
             
             }
+        }
+        stage('alpine') {
+            steps {
+                sh """
+                    docker build -f ./alpine/Dockerfile .
+                """
+            
+            }
         
         }
     }
+    
     
 }
