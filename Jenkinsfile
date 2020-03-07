@@ -5,7 +5,7 @@ pipeline {
             
             additionalBuildArgs  '-t jenkins-kozhvit'
         
-            args '--name jenkins-kozhvit -u 0:0 --network=net_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
+            args '--name jenkins-kozhvit -u 0:0 --network=kozharskiy_network_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
 
         }    
     }
@@ -30,9 +30,9 @@ pipeline {
             
             steps {
                 sh """
-                    docker build -t my_alpine --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=net_kozhvit -f ./alpine/Dockerfile .
+                    docker build -t my_alpine --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=kozharskiy_network_kozhvit -f ./alpine/Dockerfile .
                 """
-                sh "docker run -d --name final_alpine --network=net_kozhvit my_alpine"
+                sh "docker run -d --name final_alpine --network=kozharskiy_network_kozhvit my_alpine"
                 sh """
                     res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://final_alpine:8888/version | jq '. | length'`
                     if [ "1" != "\$res" ]; then
