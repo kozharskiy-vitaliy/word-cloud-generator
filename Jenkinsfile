@@ -5,7 +5,7 @@ pipeline {
             
             additionalBuildArgs  '-t jenkins-slave'
         
-            args '--name jenkins-slave -u 0:0 --network=vagrant_default -v /var/run/docker.sock:/var/run/docker.sock'
+            args '--name jenkins-slave -u 0:0 --network=network_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
 
         }    
     }
@@ -30,22 +30,22 @@ pipeline {
             
             steps {
                 sh """
-                    docker build -t ouralpine --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=vagrant_default -f ./alpine/Dockerfile .
+                    docker build -t our_alpine --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=network_kozhvit -f ./alpine/Dockerfile .
                 """
-                sh "docker run -d --name finalalpine --network=vagrant_default ouralpine"
+                sh "docker run -d --name final_alpine --network=network_kozhvit my_alpine"
                 sh """
-                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://finalalpine:8888/version | jq '. | length'`
+                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://final_alpine:8888/version | jq '. | length'`
                     if [ "1" != "\$res" ]; then
                       exit 99
                     fi
 
-                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://finalalpine:8888/api | jq '. | length'`
+                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://final_alpine:8888/api | jq '. | length'`
                     if [ "7" != "\$res" ]; then
                       exit 99
                     fi
                 """
-                sh "docker rm -f finalalpine"
-                sh "docker rmi ouralpine"
+                sh "docker rm -f final_alpine"
+                sh "docker rmi my_alpine"
             }
         
         }
