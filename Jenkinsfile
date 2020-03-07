@@ -10,7 +10,7 @@ pipeline {
         }    
     }
     stages {
-        stage('build') {
+        stage('build project') {
             steps {
                 sh """
                     export PATH="\$PATH:${WORKSPACE}/bin"
@@ -23,7 +23,7 @@ pipeline {
             
             }
         }
-        stage('alpine') {
+        stage('test project') {
             environment {
                 NEXUS_CREDS = credentials('nexus-creds')
             }
@@ -50,6 +50,4 @@ pipeline {
         
         }
     }
-    
-    
 }
