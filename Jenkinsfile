@@ -30,9 +30,21 @@ pipeline {
             
             steps {
                 sh """
-                    docker build --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=vagrant_default -f ./alpine/Dockerfile .
+                    docker build -t ouralpine --build-arg NEXUS_CREDS=${NEXUS_CREDS} --build-arg BUILD_NUMBER=${BUILD_NUMBER} --network=vagrant_default -f ./alpine/Dockerfile .
                 """
-            
+                sh "docker run -d --name finalalpine --network=vagrant_default ouralpine"
+                sh """
+                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://finalalpine:8888/version | jq '. | length'`
+                    if [ "1" != "\$res" ]; then
+                      exit 99
+                    fi
+
+                    res=`curl -s -H "Content-Type: application/json" -d '{"text":"ths is a really really really important thing this is"}' http://finalalpine:8888/api | jq '. | length'`
+                    if [ "7" != "\$res" ]; then
+                      exit 99
+                    fi
+                """
+                
             }
         
         }
