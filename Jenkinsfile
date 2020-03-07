@@ -3,7 +3,7 @@ pipeline {
         
         dockerfile {
             
-            additionalBuildArgs  '-t jenkins-slave'
+            additionalBuildArgs  '-t jenkins-kozhvit'
         
             args '--name jenkins-slave -u 0:0 --network=net_kozhvit -v /var/run/docker.sock:/var/run/docker.sock'
 
