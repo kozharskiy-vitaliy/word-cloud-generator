@@ -26,7 +26,7 @@ pipeline {
         stage('alpine') {
             steps {
                 sh """
-                    docker build -f ./alpine/Dockerfile .
+                    docker build --network=vagrant_default -f ./alpine/Dockerfile .
                 """
             
             }
